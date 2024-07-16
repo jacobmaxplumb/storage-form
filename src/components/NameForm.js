@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const initialFormValues = {
   firstName: "",
@@ -7,17 +8,7 @@ const initialFormValues = {
 };
 
 export const NameForm = () => {
-  const [formValues, setFormValues] = useState(() => {
-    if (localStorage.getItem('name-form-values')) {
-        return JSON.parse(localStorage.getItem('name-form-values'));
-    }
-    return initialFormValues;
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({...formValues, [name]: value})
-  };
+  const [formValues, handleChange, whatever] = useLocalStorage('name-form', initialFormValues);
 
   return (
     <div>
@@ -40,7 +31,7 @@ export const NameForm = () => {
         name="age"
         onChange={handleChange}
       />
-      <button onClick={() => console.log(formValues)}>Log Values</button>
+      <button onClick={whatever}>Log Values</button>
     </div>
   );
 };
